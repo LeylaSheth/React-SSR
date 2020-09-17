@@ -1,6 +1,8 @@
 const path = require('path')
+const webpackMerge = require('webpack-merge')
+const baseConfig = require('./webpack.base')
 
-module.exports = {
+module.exports = webpackMerge.merge(baseConfig, {
   target: 'node',
   //应用入口
   entry: {
@@ -9,21 +11,6 @@ module.exports = {
   output: {
     //哈希值，命中缓存
     filename: 'server-entry.js',
-    path: path.join(__dirname, '../dist'),
-    //静态资源引用时的路径，区分url是否为静态资源，配置路由更方便
-    publicPath: '/public',
     libraryTarget: 'commonjs2'
-  },
-  module: {
-    rules: [{
-      test: /.jsx$/,
-      loader: 'babel-loader'
-    }, {
-      test: /.js$/,
-      loader: 'babel-loader',
-      exclude: [
-        path.join(__dirname, '../node_modules')
-      ]
-    }]
   }
-}
+})
